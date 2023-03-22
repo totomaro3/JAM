@@ -185,9 +185,6 @@ public class App {
 			System.out.println("==멤버 가입==");
 			
 			String loginId = null;
-			String loginPw = null;
-			String loginPwConfirm = null;
-			String name = null;
 			
 			while(true) {
 				
@@ -197,20 +194,18 @@ public class App {
 				loginId = sc.nextLine();
 				
 				sql.append("SELECT *");
-				sql.append("FROM `member`");
+				sql.append("FROM article");
 				sql.append("WHERE loginId = ?", loginId);
 				
 				Map<String, Object> memberMap = DBUtil.selectRow(conn, sql);
 				
 				if(memberMap.isEmpty()) {break;}
 				
-				System.out.println("동일한 ID가 있습니다.");
+				System.out.printf("동일한 ID가 있습니다.");
 			}
 			
 			System.out.printf("비밀번호 : ");
-			loginPw = sc.nextLine();
-			System.out.printf("이름 : ");
-			name = sc.nextLine();
+			String loginPw = sc.nextLine();
 			
 			SecSql sql = new SecSql();
 			
@@ -219,7 +214,6 @@ public class App {
 			sql.append(", updateDate = NOW()");
 			sql.append(", loginId = ?", loginId);
 			sql.append(", loginPw = ?", loginPw);
-			sql.append(", name = ?", name);
 
 			int id = DBUtil.insert(conn, sql);
 
