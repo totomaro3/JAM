@@ -1,0 +1,5 @@
+INDEX VERSION 1.132+C:\workspace_toto\2023_03_JAM\.metadata\.plugins\org.eclipse.jdt.core
+2792976172.index
+91260921.index
+3195392836.index
+1865797976.index
