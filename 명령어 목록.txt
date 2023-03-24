@@ -28,6 +28,8 @@ member logout
 //git remote add origin https://github.com/totomaro3/JAM.git
 //git push origin master
 
+ctrl + shift + r : 파일 빠르게 찾기
+
 
 
 

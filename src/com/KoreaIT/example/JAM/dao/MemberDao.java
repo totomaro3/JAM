@@ -1,20 +1,30 @@
 package com.KoreaIT.example.JAM.dao;
 
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import com.KoreaIT.example.JAM.Article;
-import com.KoreaIT.example.JAM.Member;
+import com.KoreaIT.example.JAM.container.Container;
+import com.KoreaIT.example.JAM.dto.Member;
 import com.KoreaIT.example.JAM.util.DBUtil;
 import com.KoreaIT.example.JAM.util.SecSql;
 
 public class MemberDao {
-	private Connection conn;
 
-	public MemberDao(Connection conn) {
-		this.conn = conn;
+	public MemberDao() {
+	}
+
+	public Member getMemberByLoginId(String loginId) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT *");
+		sql.append("FROM `member`");
+		sql.append("WHERE loginId = ?", loginId);
+
+		Map<String, Object> memberMap = DBUtil.selectRow(Container.conn, sql);
+
+		if (memberMap.isEmpty()) {
+			return null;
+		}
+
+		return new Member(memberMap);
 	}
 
 	public boolean isLoginIdDup(String loginId) {
@@ -24,7 +34,7 @@ public class MemberDao {
 		sql.append("FROM `member`");
 		sql.append("WHERE loginId = ?", loginId);
 
-		return DBUtil.selectRowBooleanValue(conn, sql);
+		return DBUtil.selectRowBooleanValue(Container.conn, sql);
 	}
 
 	public int doJoin(String loginId, String loginPw, String name) {
@@ -37,21 +47,7 @@ public class MemberDao {
 		sql.append(", loginPw = ?", loginPw);
 		sql.append(", `name` = ?", name);
 
-		return DBUtil.insert(conn, sql);
-	}
-
-	public Member getMemberByLoginId(String loginId) {
-		SecSql sql = new SecSql();
-		
-		sql.append("SELECT *");
-		sql.append("FROM `member`");
-		sql.append("WHERE loginId = ?", loginId);
-		
-		Map<String, Object> memberMap = DBUtil.selectRow(conn, sql);
-		
-		Member member = new Member(memberMap);
-		
-		return member;
+		return DBUtil.insert(Container.conn, sql);
 	}
 
 }
