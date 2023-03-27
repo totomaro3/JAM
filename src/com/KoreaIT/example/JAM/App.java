@@ -35,7 +35,7 @@ public class App {
 				conn = DriverManager.getConnection(url, "root", "");
 
 				Container.conn = conn;
-				
+
 				int actionResult = action(cmd);
 
 				if (actionResult == -1) {
@@ -66,8 +66,12 @@ public class App {
 		MemberController memberController = Container.memberController;
 		ArticleController articleController = Container.articleController;
 
-		if (cmd.equals("member login")) {
+		if (cmd.equals("member logout")) {
+			memberController.logout(cmd);
+		} else if (cmd.equals("member login")) {
 			memberController.login(cmd);
+		} else if (cmd.equals("member profile")) {
+			memberController.showProfile(cmd);
 		} else if (cmd.equals("member join")) {
 			memberController.doJoin(cmd);
 		} else if (cmd.equals("article write")) {
@@ -78,7 +82,7 @@ public class App {
 			articleController.doDelete(cmd);
 		} else if (cmd.startsWith("article modify ")) {
 			articleController.doModify(cmd);
-		} else if (cmd.equals("article list")) {
+		} else if (cmd.startsWith("article list")) {
 			articleController.showList(cmd);
 		} else {
 			System.out.println("존재하지 않는 명령어입니다");

@@ -63,12 +63,20 @@ public class MemberController extends Controller {
 			}
 
 			System.out.println(member.name + " 회원님, 환영합니다");
+
+			Container.session.login(member);
+
 			break;
 		}
 
 	}
 
 	public void doJoin(String cmd) {
+		if (Container.session.isLogined() == true) {
+			System.out.println("로그아웃 후 이용해주세요");
+			return;
+		}
+
 		String loginId = null;
 		String loginPw = null;
 		String loginPwConfirm = null;
@@ -142,6 +150,23 @@ public class MemberController extends Controller {
 
 		System.out.println(name + " 회원님, 가입 되었습니다");
 
+	}
+
+	public void showProfile(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 상태가 아닙니다");
+		} else {
+			System.out.println(Container.session.loginedMember);
+		}
+	}
+
+	public void logout(String cmd) {
+		if (Container.session.isLogined() == false) {
+			System.out.println("로그인 후 이용해주세요");
+			return;
+		} else {
+			Container.session.logout();
+		}
 	}
 
 }
